@@ -219,7 +219,7 @@ function MainPage() {
         ></textarea>
         </div>
         <div className="button-container">
-        <button className="question-button" onClick={handleSubmit}>입력내용으로 질문받기</button>
+        <button className="question-button" onClick={handleOpenChatbot2}>입력내용으로 질문받기</button>
           <button className="create-book-button" onClick={handleCreateBook}>
             자서전 바로 만들기
           </button>
