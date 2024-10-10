@@ -1,0 +1,195 @@
+.design-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1001;
+  width : 700px;
+  height : 700px;
+}
+
+.book-design-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border-radius: 20px;
+  background-color: white;
+}
+
+.book-container {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top : -150px;
+  position: relative;
+}
+
+.book-cover {
+  width: 100%; /* 책 표지 크기를 확대 */
+  height: auto;
+}
+
+.book-cover {
+  width: 300px;
+  height: 400px;
+  background-color: #E3CAA5;
+  object-fit: cover;
+  transition: width 0.3s ease, height 0.3s ease;
+}
+
+.added-image, .resizable-rotatable-image {
+  position: absolute;
+  cursor: move; /* 이미지 이동을 암시하는 커서 */
+  z-index: 10;
+}
+
+.resizable-rotatable-image {
+  position: absolute;
+  cursor: move;
+  z-index: 10;
+  transition: transform 0.1s ease, width 0.1s ease;
+}
+
+.resizable-rotatable-image {
+  position: absolute;
+  cursor: move;
+  z-index: 10;
+  transition: transform 0.1s ease, width 0.1s ease;
+}
+
+.book-container input[type="text"] {
+  outline: none;
+  text-align: center;
+  cursor: move;
+  z-index: 10;
+}
+
+
+.footer {
+  width: 150px;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 90%;
+  right: 20px;
+  transform: translateY(-50%);
+  margin : 20px;
+
+}
+
+
+  .complete-button {
+    background-color: #914F1E;
+    border: none;
+    padding: 15px 30px;
+    cursor: pointer;
+    border-radius: 5px;
+    color : white;
+    font-size : 18px;
+    font-weight: bold;
+    margin-bottom : 40px;
+  }
+  .complete-button:hover{
+    background-color: #AD8B73;
+  }
+
+  .design-tools {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    border-radius: 10px;
+    background-color: #FFFBE9;
+    border: none;
+    padding: 20px 60px;
+    margin: 30px;
+    margin-bottom : 40px;
+  }
+  
+  .tool-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    width : 50px;
+    height : 50px;
+  }
+
+  .tool-button img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .color-button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 3px solid black;
+    margin-top : 5px;
+  }
+  
+  .color-palette {
+    position: absolute;
+    top: 40px; /* Adjust based on the position of your button */
+    left: 0; /* Position relative to the button */
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 8px;
+    z-index: 1000;
+  }
+  
+  .color-swatch {
+    width: 30px;
+    height: 30px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: transform 0.1s ease-in-out;
+  }
+  
+  .color-swatch:hover {
+    transform: scale(1.1);
+  }
+  
+  .text-options-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 2000;
+  }
+  
+  .text-options-popup h3 {
+    margin: 0 0 10px;
+  }
+  
+  .text-options-popup input[type="number"] {
+    width: 60px;
+    margin-left: 10px;
+  }
+  
+  .text-options-popup button {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .text-options-popup button:hover {
+    background-color: #004080;
+  }

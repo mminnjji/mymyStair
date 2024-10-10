@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../components/SignupForm.css';
+import './SignupPage.css';
 import signupIcon from '../assets/images/signup-icon.png';
 
 function SignupPage() {
@@ -48,7 +48,7 @@ function SignupPage() {
       return;
     }
 
-    const data = new FormData(); // FormData 객체 생성
+    const data = new FormData();
     for (const key in formData) {
       data.append(key, formData[key]);
     }
@@ -58,7 +58,11 @@ function SignupPage() {
 
     fetch('/auth/register_process', {
       method: 'POST',
-      body: data,
+      body: data
+      // headers: {
+      //   'Content-Type': 'application/json',
+      // },
+      //body: JSON.stringify(formData),
     })
     .then(response => response.json())
     .then(data => {

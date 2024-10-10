@@ -3,16 +3,21 @@ const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
-const RedisStore = require('connect-redis').default;
+const RedisStore = require('connect-redis').default;  // ES6 스타일로 불러오기
 const Redis = require('ioredis');
-var authCheck = require('../auth/authCheck.js');
-var authRouter = require('../auth/auth.js');
-var writeRouter = require('./write_page.js');
-const userRouter = require('../auth/user.js');
-var template = require('./template.js');
-const imageRouter = require('./image.js');
+var authCheck = require('./api/auth/authCheck.js');
+var authRouter = require('./api/auth/auth.js');
+var writeRouter = require('./api/write_page.js');
+const userRouter = require('./api/get_user_info.js');
+const imageRouter = require('./api/upload_image.js');
+const getBookListRouter = require('./api/get_books.js');
+const deleteBookRouter = require('./api/delete_book.js');
+const logoutRouter = require('./api/auth/logout.js');
+const chatbotRouter = require('./api/chatbotapi.js');
+const categoryRouter = require('./api/category.js')
+const summaryRouter = require('./api/summary.js')
+const printRouter = require('./api/print_book.js')
 
-// express 모듈 설정 / 포트번호 설정
 const app = express();
 
 // 요청 본문 해석
@@ -22,18 +27,40 @@ app.use('/uploads', express.static('uploads'));
 
 app.use(morgan('dev'));
 
-// 세션설정
+// Redis 클라이언트 설정
 const redisClient = new Redis({
-    host: '127.0.0.1',  // Redis 서버 호스트
-    port: 6379         // Redis 서버 포트
+  host: 'localhost',
+  port: 6379
 });
 
+// 세션 설정
 app.use(session({
-    store: new RedisStore({ client: redisClient }),
-    secret: 'your-secret-key',
-    resave: false,
-    saveUninitialized: false
-}));
+	store: new RedisStore({ client: redisClient }), // 인스턴스화된 RedisStore 사용
+	secret: 'your-secret-key',
+	resave: false,
+	saveUninitialized: true,
+	cookie: {
+	  maxAge: 30 * 60 * 1000, // 30분
+	  httpOnly: true,
+	  secure: false
+	}
+  }));
+
+// // 전역 미들웨어로 세션 확인
+// app.use((req, res, next) => {
+//   // 로그인, 회원가입 페이지는 세션 확인 없이 접근 가능
+//   if (req.path === '/' || req.path === '/signup') {
+//     return;
+//   }
+
+//   // 세션이 유효한 경우
+//   if (req.session.is_logined) {
+//     req.session.touch(); // 세션 TTL 갱신
+//     return next();
+//   } else {
+//     return res.redirect('/'); // 세션 만료 시 로그인 페이지로 이동
+//   }
+// });
 
 // 기본루트 get 
 app.get('/', (req, res) => {
@@ -55,22 +82,20 @@ app.get('/main', (req, res) => {
 	  res.redirect('/auth/login');  
 	  return;
 	}
-	var html = template.HTML('Welcome',
-	  `<p>로그인에 성공하셨습니다.</p>
-	   <p><a href="/write" class="btn">글 작성하기</a></p>
-	  `,
-	  authCheck.statusUI(req, res)
-	);
-	res.send(html);
 })
 
-app.use('/write', writeRouter);
-
-//유저확인라우터
+//모든 api 분기 라우터
 app.use('/api', userRouter);
-
-//이미지 업로드 라우터
+app.use('/api', writeRouter);
+app.use('/api', getBookListRouter);
 app.use('/api', imageRouter);
+app.use('/api', deleteBookRouter);
+app.use('/api', logoutRouter);
+app.use('/api', chatbotRouter);
+app.use('/api', summaryRouter);
+app.use('/api', categoryRouter);
+app.use('/api', printRouter);
+
 
 app.use((req, res, next) => {
     res.status(404).send('Not found');
@@ -78,6 +103,6 @@ app.use((req, res, next) => {
 
 // 포트 연결
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
+app.listen(PORT,'0.0.0.0', () => {
   console.log(`Server is running on port ${PORT}`);
 });
